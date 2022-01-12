@@ -19,7 +19,10 @@ app.use('/api', apiRouter)
 
 
 // Encender Servidor y sincronizar modelos de datos
-app.listen(process.env.SERVER_PORT, async()=> {
+const PORT = process.env.PORT || process.env.SERVER_PORT
+
+app.listen(PORT, async()=> {
+    console.log(`Servidor ejecutandose en http://localhost:${PORT}`)
     try {
         await sequelize.sync({ force: false, alter: true});
         console.log("Todos los modelos se sincronizaron correctamente");
