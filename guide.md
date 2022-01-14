@@ -16,22 +16,35 @@ para que sequelizer pueda apuntar a esta y así crear las modelos y las relacion
 
 *Usuarios*
 **GET** http://localhost:3001/api/users
+
 **POST** http://localhost:3001/api/users/register
+
 **POST** http://localhost:3001/api/users/login
+
 
 *Productos*
 **GET** http://localhost:3001/api/products
+
 **GET** http://localhost:3001/api/products/1
+
 **POST** http://localhost:3001/api/products
+
 **PUT** http://localhost:3001/api/products/1
+
 **DELETE** http://localhost:3001/api/products/1
+
 
 *Categorias*
 **GET** http://localhost:3001/api/category
+
 **GET** http://localhost:3001/api/category/
+
 **POST** http://localhost:3001/api/category
+
 **PUT** http://localhost:3001/api/category/1
+
 **DELETE** http://localhost:3001/api/category/1
+
 
 
 
