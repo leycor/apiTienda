@@ -22,11 +22,11 @@ router.post('/', async(req, res) => {
     const nameCategory = req.body.name
 
     const result = await categoryModel.createCategory(req.body.name)
-
-    // Mostrar error
-    if( !Array.isArray(result) ) res.json( result)
-
-    res.json(result)
+    
+    res.json({
+        error: !Array.isArray(result) && typeof(result) !== 'string' ? false : true,
+        data: result
+    })
 })
 
 // http://localhost:3000/api/category/id

@@ -54,6 +54,11 @@ categoryModel.createCategory = async function(name){
         return result
         
     } catch (error) {
+        // Gestionando errores al crear una nueva categoria
+        const validationDb = error.errors[0].message
+        if(error.name === 'SequelizeUniqueConstraintError') return `Ya existe una categoria con el nombre ${name}`
+        if(validationDb === 'Validation notEmpty on name failed' ) return 'El nombre de la categoria no puede estar vacio'
+        if(validationDb === 'Validation isAlpha on name failed' ) return 'El nombre de la categoria no puede ser un valor numerico'
         return error
     }
 
