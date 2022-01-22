@@ -1,8 +1,20 @@
 
 const router = require('express').Router();
+const multer = require('multer')
+const fs = require('fs')
+
+// Decirle a multer dónde guardar las imagenes
+const upload = multer ( {dest: 'public/images'} )
 
 // Import model
 const productModel = require('../../db/models/productModel');
+
+
+router.post('/upload', upload.single('file'), async(req, res) => {
+    fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1])
+    console.log(req.file)
+    res.json(req.file)
+})
 
 // http://localhost:3000/api/products
 router.get('/', async(req, res)=> {

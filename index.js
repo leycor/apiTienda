@@ -3,21 +3,32 @@ const express = require('express')
 const sequelize = require('./db/config')
 const bodyParser = require('body-parser');
 const cors = require('cors')
-const fileupload = require("express-fileupload");
 
+// Imagenes
+const path = require('path')
+const fs = require('fs')
+const multer = require('multer')
+
+// Decirle a multer dónde guardar las imagenes
+const upload = multer ( {dest: 'public/images'} )
+
+// DB/RELACIONES/VARIABLES DE ENTORNO
 require('dotenv').config({path:'./.env'})
 require('./db/relations');
 
+// Rutas
 const apiRouter = require('./routes/api')
 
 const app = express();
 
+// Recibir Json de formularios y decirle a express donde estan los archivos estaticos
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Permitir peticiones de manera local
 app.use(cors())
 
-// Trabajar con imagenes
-app.use(fileupload());
-app.use(express.static("files"));
 
 // Configurar bodyParser
 app.use(bodyParser.json());
