@@ -30,6 +30,10 @@ userModel.createUser = async function(email, password){
         const result = await userModel.create({email, password})
         return result
     } catch(error){
+        const validationDb = error.errors[0].message
+        if(validationDb === 'Validation notEmpty on email failed' ) return 'El email no puede estar vacio'
+        if(validationDb === 'Validation isEmail on email failed' ) return 'El email no es valido'
+        if(error.name === 'SequelizeUniqueConstraintError') return `El email ya se encuentra en uso`
         return error
     }
 }

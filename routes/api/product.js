@@ -20,6 +20,10 @@ router.get('/:id', async(req, res)=> {
 
 // http://localhost:3000/api/products
 router.post('/', async(req, res) => {
+
+    // Imagen de producto
+
+    // Data del producto
     const name = req.body.name
     const stock = Number.parseInt(req.body.stock)
     const price = Number.parseFloat(req.body.price)

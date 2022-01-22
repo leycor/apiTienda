@@ -3,6 +3,8 @@ const express = require('express')
 const sequelize = require('./db/config')
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const fileupload = require("express-fileupload");
+
 require('dotenv').config({path:'./.env'})
 require('./db/relations');
 
@@ -10,7 +12,12 @@ const apiRouter = require('./routes/api')
 
 const app = express();
 
+// Permitir peticiones de manera local
 app.use(cors())
+
+// Trabajar con imagenes
+app.use(fileupload());
+app.use(express.static("files"));
 
 // Configurar bodyParser
 app.use(bodyParser.json());

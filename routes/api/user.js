@@ -15,11 +15,12 @@ router.post('/register', async(req, res) =>{
         const result = await userModel.createUser(email, passwordHash)
         
         // Mostrar error
-        if( !Array.isArray(result) ) res.json( result)
-        
-        res.json(result)
+        res.json({
+            error: !Array.isArray(result) && typeof(result) !== 'string' ? false : true,
+            data: result
+        })
     } catch (error) {
-        console.log('Ocurrio un error')
+        console.log('Ocurrio un error al cargar el usuario', error)
     }
 
 })
