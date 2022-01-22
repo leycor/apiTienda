@@ -22,7 +22,7 @@ router.post('/', async(req, res) => {
     const nameCategory = req.body.name
 
     const result = await categoryModel.createCategory(req.body.name)
-    
+
     res.json({
         error: !Array.isArray(result) && typeof(result) !== 'string' ? false : true,
         data: result
@@ -36,11 +36,10 @@ router.put('/:id', async(req, res) => {
 
     const result = await categoryModel.updateCategory(idCategory, nameCategory)
 
-    // Mostrar error
-    if( !Array.isArray(result) ) res.json( result)
-
-    // Actualización exitosa
-    res.json(`Categoria actualizada correctamente`)
+    res.json({
+        error: Array.isArray(result) ? false : true,
+        data: Array.isArray(result) ? `La categoria #${idCategory} cambió su nombre ha ${nameCategory}` : result
+    })
 })
 
 // http://localhost:3000/api/category/id
