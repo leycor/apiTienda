@@ -28,6 +28,15 @@ const productModel = sequelize.define('product', {
             isNumeric: true,
             notEmpty: true,
         }
+    },
+
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate:{
+            notEmpty: true,
+            isNumeric: true,
+        }
     }
     
 })
@@ -67,6 +76,14 @@ productModel.createProduct = async function(name, stock, price, categoryId){
         return result
         
     } catch (error) {
+
+        // Gestionando errores al crear un nuevo producto ** Optimizar esto para no repetirlo ***
+        const validationDb = error.errors[0].message
+        if(validationDb === 'Validation notEmpty on name failed' ) return 'El nombre del producto no puede estar vacio'
+        if(error.name === 'SequelizeUniqueConstraintError') return `Ya existe un producto con el nombre ${name}`
+        if(validationDb === 'Validation isNumeric on stock failed' ) return 'El stock tiene que ser un valor numerico'
+        if(validationDb === 'Validation isNumeric on price failed' ) return 'El precio tiene que ser un valor numerico'
+        if(validationDb === 'Validation isNumeric on categoryId failed' ) return 'El campo categoria tiene que ser un valor numerico'
         return error
     }
 

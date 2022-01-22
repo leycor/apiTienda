@@ -28,9 +28,11 @@ router.post('/', async(req, res) => {
     const result = await productModel.createProduct(name, stock, price, categoryId)
 
     // Mostrar error
-    if( !Array.isArray(result) ) res.json( result)
-
-    res.json(result)
+    res.json({
+        error: !Array.isArray(result) && typeof(result) !== 'string' ? false : true,
+        data: result
+    })
+    
 })
 
 // http://localhost:3000/api/products/id
