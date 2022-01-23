@@ -37,6 +37,13 @@ const productModel = sequelize.define('product', {
             notEmpty: true,
             isNumeric: true,
         }
+    },
+
+    file: {
+        type: DataTypes.STRING,
+        validate:{
+            notEmpty: true
+        }
     }
     
 })
@@ -69,10 +76,10 @@ productModel.getProductForId = async function(id){
 }
 
 // Crear un producto
-productModel.createProduct = async function(name, stock, price, categoryId){
+productModel.createProduct = async function(name, stock, price, categoryId,file){
 
     try {
-        const result = await productModel.create({name, stock, price, categoryId})
+        const result = await productModel.create({name, stock, price, categoryId,file})
         return result
         
     } catch (error) {

@@ -31,17 +31,25 @@ router.get('/:id', async(req, res)=> {
 })
 
 // http://localhost:3000/api/products
-router.post('/', async(req, res) => {
+router.post('/', upload.single('file'), async(req, res) => {
 
-    // Imagen de producto
+    // Renombrar imagenes para que tengan extension
+    // fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1])
+    console.log(req.file)
+    console.log(req.body.name)
+    console.log(req.body.price)
+    console.log(req.body.stock)
+    console.log(req.body.categoryId)
+    res.json(req.body)
 
     // Data del producto
     const name = req.body.name
     const stock = Number.parseInt(req.body.stock)
     const price = Number.parseFloat(req.body.price)
     const categoryId = Number.parseInt(req.body.categoryId)
+    const file = req.file.path
 
-    const result = await productModel.createProduct(name, stock, price, categoryId)
+    const result = await productModel.createProduct(name, stock, price, categoryId, file)
 
     // Mostrar error
     res.json({
