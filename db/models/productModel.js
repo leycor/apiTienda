@@ -98,10 +98,10 @@ productModel.createProduct = async function(name, stock, price, categoryId,file)
 
 
 // Actualizar un producto
-productModel.updateProduct = async  function(id,name, stock, price, categoryId){
+productModel.updateProduct = async  function(id,name, stock, price, categoryId,file){
     try {
         const result = await productModel.update(
-            { name, stock, price, categoryId }, 
+            { name, stock, price, categoryId, file }, 
             { where: {id: id} }
         )
         return result

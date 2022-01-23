@@ -22,6 +22,11 @@ router.get('/', async(req, res)=> {
     res.json(result)
 })
 
+// Mostrar imagenes
+// router.get('/images/', async(req, res) => {
+//     res.sendFile(`images/2af81900ea140cb77bfb3924218607a9`)
+// })
+
 
 // http://localhost:3000/api/products/id
 router.get('/:id', async(req, res)=> {
@@ -34,20 +39,14 @@ router.get('/:id', async(req, res)=> {
 router.post('/', upload.single('file'), async(req, res) => {
 
     // Renombrar imagenes para que tengan extension
-    // fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1])
-    console.log(req.file)
-    console.log(req.body.name)
-    console.log(req.body.price)
-    console.log(req.body.stock)
-    console.log(req.body.categoryId)
-    res.json(req.body)
+    fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1])
 
     // Data del producto
     const name = req.body.name
     const stock = Number.parseInt(req.body.stock)
     const price = Number.parseFloat(req.body.price)
     const categoryId = Number.parseInt(req.body.categoryId)
-    const file = req.file.path
+    const file = `${req.file.filename}.${req.file.mimetype.split('/')[1]}`
 
     const result = await productModel.createProduct(name, stock, price, categoryId, file)
 
@@ -60,14 +59,21 @@ router.post('/', upload.single('file'), async(req, res) => {
 })
 
 // http://localhost:3000/api/products/id
-router.put('/:id', async(req, res) => {
+router.put('/:id',upload.single('file'), async(req, res) => {
+
+    // Renombrar imagenes para que tengan extension
+    fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1])
+    
+    // Data del producto
     const id = Number.parseInt(req.params.id)
     const name = req.body.name
     const stock = Number.parseInt(req.body.stock)
     const price = Number.parseFloat(req.body.price)
     const categoryId = Number.parseInt(req.body.categoryId)
+    const file = `${req.file.filename}.${req.file.mimetype.split('/')[1]}`
+    console.log('Este es el parametro', id)
 
-    const result = await productModel.updateProduct(id, name, stock, price, categoryId)
+    const result = await productModel.updateProduct(id, name, stock, price, categoryId, file)
 
     // Mostrar error
     if( !Array.isArray(result) ) res.json( result)
